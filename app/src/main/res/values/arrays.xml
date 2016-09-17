@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="menu_sort_by_title">
+        <item>@string/menu_title_most_popular</item>
+        <item>@string/menu_title_top_rated</item>
+    </array>
+
+    <array name="menu_sort_by_values">
+        <item>@string/menu_value_most_popular</item>
+        <item>@string/menu_value_top_rated</item>
+    </array>
+
+</resources>

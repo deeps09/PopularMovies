@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 /**
  * Created by Deepesh_Gupta1 on 09/16/2016.
  */
@@ -18,6 +20,11 @@ public class MoviesArrayAdapter extends ArrayAdapter<Movies> {
 
     public MoviesArrayAdapter(Context context) {
         super(context, 0);
+        this.mContext = context;
+    }
+
+    public MoviesArrayAdapter(Context context, ArrayList<Movies> objects) {
+        super(context, 0, objects);
         this.mContext = context;
     }
 
