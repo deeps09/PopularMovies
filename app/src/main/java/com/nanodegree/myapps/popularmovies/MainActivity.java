@@ -21,24 +21,28 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     static String LOG_TAG = MainActivity.class.getSimpleName();
-    static final String BASE_URL = "https://api.themoviedb.org/3/movie/popular?api_key=69b589af19cead810bc805ab8f5363f6&";
+    //static final String BASE_URL = "https://api.themoviedb.org/3/movie/popular?api_key=69b589af19cead810bc805ab8f5363f6&";
     //int page = 1;
-    Boolean loadNewData = true;
+    static final String BASE_URL = "https://api.themoviedb.org/3/movie";
     static final String API_KEY = "69b589af19cead810bc805ab8f5363f6";
+    Boolean loadNewData = true;
     ProgressBar progressBar;
     GridView gridViewMovies;
     MoviesArrayAdapter moviesAdapter;
     ArrayList<Movies> moviesList;
+    String lastPreference = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        lastPreference   = Utilities.getPreferenceSortBy(this);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         gridViewMovies = (GridView) findViewById(R.id.movies_gridview);
 
         if (savedInstanceState == null || !savedInstanceState.containsKey("movies")){
+            Log.i(LOG_TAG, "No Parcelable data available");
             moviesList = new ArrayList<Movies>();
             backgroundTask bgTask = new backgroundTask();
 
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             else
                 Toast.makeText(this, "No Internet Access", Toast.LENGTH_SHORT).show();
         } else{
+            Log.i(LOG_TAG, "Found Parcelable data");
             moviesList = savedInstanceState.getParcelableArrayList("movies");
             progressBar.setVisibility(View.GONE);
             gridViewMovies.setVisibility(View.VISIBLE);
@@ -85,6 +90,27 @@ public class MainActivity extends AppCompatActivity {
         Log.i(LOG_TAG, "onSaveInstanceState()");
     }
 
+    @Override
+    protected void onResume() {
+        Log.i(LOG_TAG, "onResume()");
+
+        // Is preference changed
+        if (!lastPreference.equals(Utilities.getPreferenceSortBy(this))){
+            this.finish();
+            startActivity(new Intent(this, MainActivity.class));
+            Log.i(LOG_TAG, "onRestart() called from onResume()");
+            Toast.makeText(this, "Preference changed loading afresh", Toast.LENGTH_SHORT).show();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.i(LOG_TAG, "onPause() ");
+        lastPreference = Utilities.getPreferenceSortBy(this);
+        super.onPause();
+    }
+
     private class backgroundTask extends AsyncTask<String, Void, ArrayList<Movies>> {
         @Override
         protected ArrayList<Movies> doInBackground(String... params) {
@@ -114,7 +140,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String constructURL (){
+/*        Uri uri = Uri.parse(BASE_URL).buildUpon()
+                .appendQueryParameter("api_key", API_KEY)
+                .build();*/
         Uri uri = Uri.parse(BASE_URL).buildUpon()
+                .appendEncodedPath(Utilities.getPreferenceSortBy(this))
                 .appendQueryParameter("api_key", API_KEY)
                 .build();
         Log.i(LOG_TAG, uri.toString());

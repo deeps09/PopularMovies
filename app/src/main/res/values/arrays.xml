@@ -2,13 +2,13 @@
 <resources>
 
     <array name="menu_sort_by_title">
-        <item>@string/menu_title_most_popular</item>
-        <item>@string/menu_title_top_rated</item>
+        <item>@string/pref_most_popular_title</item>
+        <item>@string/pref_top_rated_title</item>
     </array>
 
     <array name="menu_sort_by_values">
-        <item>@string/menu_value_most_popular</item>
-        <item>@string/menu_value_top_rated</item>
+        <item>@string/pref_most_popular_value</item>
+        <item>@string/pref_top_rated_value</item>
     </array>
 
 </resources>

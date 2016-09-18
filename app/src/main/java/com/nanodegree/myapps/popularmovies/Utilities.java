@@ -1,5 +1,8 @@
 package com.nanodegree.myapps.popularmovies;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -102,6 +105,13 @@ public class Utilities {
             e.printStackTrace();
         }
         return arrayList;
+    }
+
+    public static String getPreferenceSortBy (Context context){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        String preference = sharedPref.getString(context.getString(R.string.menu_sort_by_key),
+                context.getString(R.string.pref_most_popular_value));
+        return preference;
     }
 
 }
