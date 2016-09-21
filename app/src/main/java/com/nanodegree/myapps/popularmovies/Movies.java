@@ -8,12 +8,12 @@ import android.os.Parcelable;
  */
 public class Movies implements Parcelable {
 
-    String mMovieId;
-    String mMovieTitle;
-    String mPosterUrl;
-    String mUserRating;
-    String mReleaseDate;
-    String mMovieDesc;
+    private String mMovieId;
+    private String mMovieTitle;
+    private String mPosterUrl;
+    private String mUserRating;
+    private String mReleaseDate;
+    private String mMovieDesc;
 
     protected Movies(Parcel in) {
         mMovieId = in.readString();

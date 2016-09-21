@@ -14,11 +14,11 @@
         android:drawSelectorOnTop="true"
         android:horizontalSpacing="5dp"
         android:numColumns="auto_fit"
-        android:verticalSpacing="6dp"
-        android:visibility="gone" />
+        android:verticalSpacing="6dp" />
 
     <ProgressBar
         android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

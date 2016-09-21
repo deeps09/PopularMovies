@@ -2,6 +2,8 @@ package com.nanodegree.myapps.popularmovies;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -28,18 +30,18 @@ public class Utilities {
     static String jsonString = null;
     private static String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w342";
 
-    public static ArrayList<Movies> fetchJSONDataFromInternet(String url) {
-
+    public static String fetchJSONDataFromInternet(String url) {
+        InputStream inputStream = null;
         try {
             URL myUrl = new URL(url);
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) myUrl.openConnection();
             httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(1000);
+            //vhttpURLConnection.setConnectTimeout(1000);
             httpURLConnection.connect();
 
-            InputStream inputStream = httpURLConnection.getInputStream();
-            jsonString = readBufferedData(inputStream);
+            inputStream = httpURLConnection.getInputStream();
+
 
         } catch (ProtocolException e) {
             e.printStackTrace();
@@ -49,7 +51,7 @@ public class Utilities {
             e.printStackTrace();
         }
 
-        return extractDataFromJson(jsonString);
+        return readBufferedData(inputStream);
     }
 
     public static String readBufferedData(InputStream inputStream) {
@@ -70,7 +72,8 @@ public class Utilities {
         return jsonData.toString();
     }
 
-    private static ArrayList<Movies> extractDataFromJson(String JsonString) {
+    // To extract movie details from JSON
+    public static ArrayList<Movies> extractMovieInfoFromJSON(String JsonString) {
         ArrayList<Movies> arrayList = new ArrayList<>();
         try {
             //listOfMovies.clear();
@@ -90,15 +93,15 @@ public class Utilities {
                 imagePath = IMAGE_BASE_URL + imagePath;
                 //Log.i(LOG_TAG + "imagePath", imagePath);
 
-                Log.i(LOG_TAG + " JSON ", "\n Poster: " + imagePath +
+            /*    Log.i(LOG_TAG + " JSON ", "\n Poster: " + imagePath +
                         "\n Desc: " + movieDesc +
                         "\n Release Date: " + relDate +
                         "\n Movie ID: " + movieId +
                         "\n Title: " + movieTitle +
                         "\n Rating: " + rating +
-                        "\n ---------------------");
+                        "\n ---------------------");*/
 
-                arrayList.add(new Movies(movieId, movieTitle, imagePath, rating, relDate, movieDesc ));
+                arrayList.add(new Movies(movieId, movieTitle, imagePath, rating, relDate, movieDesc));
                 i++;
             }
         } catch (JSONException e) {
@@ -107,11 +110,71 @@ public class Utilities {
         return arrayList;
     }
 
-    public static String getPreferenceSortBy (Context context){
+    // To extract reviews from JSON
+    public static ArrayList<String> extractReviewsFromJSON(String JsonString) {
+        //JsonString = "https://api.themoviedb.org/3/movie/244786/reviews?api_key=69b589af19cead810bc805ab8f5363f6";
+        ArrayList<String> reviews = new ArrayList<>();
+
+        try {
+            JSONObject rootObj = new JSONObject(JsonString);
+            JSONArray resultsArray = rootObj.getJSONArray("results");
+
+            int i = 0;
+
+            //if (Flag == FLAG_REVIEW) {
+            reviews.clear();
+            while (i < resultsArray.length()) {
+                JSONObject dataObj = resultsArray.getJSONObject(i);
+                reviews.add(dataObj.getString("content"));
+                Log.v(LOG_TAG + " Review ", reviews.get(i));
+                i++;
+            }
+
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, " JSONException Occurred ", e);
+            //videoKey = null;
+        }
+        return reviews;
+    }
+
+    // To extract VideoKey from JSON
+    public static String extractVideoKeyFromJSON(String JsonString) {
+        //JsonString = "https://api.themoviedb.org/3/movie/244786/reviews?api_key=69b589af19cead810bc805ab8f5363f6";
+        String videoKey;
+
+        try {
+            JSONObject rootObj = new JSONObject(JsonString);
+            JSONArray resultsArray = rootObj.getJSONArray("results");
+
+            JSONObject dataObj = resultsArray.getJSONObject(0);
+            videoKey = dataObj.getString("key");
+            Log.v(LOG_TAG + " Video ", videoKey);
+
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, " JSONException Occurred ", e);
+            videoKey = null;
+        }
+        return videoKey;
+    }
+
+    public static String getPreferenceSortBy(Context context) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String preference = sharedPref.getString(context.getString(R.string.menu_sort_by_key),
                 context.getString(R.string.pref_most_popular_value));
         return preference;
     }
+
+    public static Boolean checkInternetAccess(Context context) {
+        ConnectivityManager conManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = conManager.getActiveNetworkInfo();
+        Boolean isNetConnected = false;
+
+       /* if (networkInfo != null || networkInfo.isConnectedOrConnecting())
+            isNetConnected = true;
+
+        return isNetConnected;*/
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
 
 }
