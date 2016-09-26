@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -47,6 +48,7 @@ public class DetailsActivity extends AppCompatActivity {
         Picasso.with(this).load(mPosterUrl).fit().into(detailPoster);
         playArrow.setVisibility(View.VISIBLE);
 
+        // Out of scope for this stage
         Uri reviewUri = Uri.parse(BASE_URL).buildUpon()
                 .appendEncodedPath(mMovieId)
                 .appendEncodedPath("reviews")
@@ -60,7 +62,11 @@ public class DetailsActivity extends AppCompatActivity {
                 .build();
 
         backgroundTask bgTask = new backgroundTask();
-        bgTask.execute(reviewUri.toString(), videoUri.toString());
+
+        if (Utilities.checkInternetAccess(this))
+            bgTask.execute(reviewUri.toString(), videoUri.toString());
+        else
+            Toast.makeText(getApplicationContext(), "No Internet Connection Available", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -73,7 +79,7 @@ public class DetailsActivity extends AppCompatActivity {
         return true;
     }
 
-    private class backgroundTask extends AsyncTask<String, Void, String>{
+    private class backgroundTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
             return Utilities.extractVideoKeyFromJSON(Utilities.fetchJSONDataFromInternet(params[1]));

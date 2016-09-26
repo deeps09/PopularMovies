@@ -1,8 +1,6 @@
 package com.nanodegree.myapps.popularmovies;
 
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -195,18 +193,6 @@ public class MainActivity extends AppCompatActivity {
                 this.cancel(true);
             bgTask = null;
         }
-    }
-
-    private Boolean checkInternetAccess() {
-        ConnectivityManager conManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = conManager.getActiveNetworkInfo();
-        Boolean isNetConnected = false;
-
-       /* if (networkInfo != null || networkInfo.isConnectedOrConnecting())
-            isNetConnected = true;
-
-        return isNetConnected;*/
-        return networkInfo != null && networkInfo.isConnected();
     }
 
     private String constructURL() {
