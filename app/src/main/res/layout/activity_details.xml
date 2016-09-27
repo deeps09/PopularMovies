@@ -23,8 +23,8 @@
                 <ImageView
                     android:id="@+id/detailMoviePoster"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_height="300dp"
                     android:src="@drawable/ic_notifications_black_24dp" />
 
@@ -45,7 +45,7 @@
                 android:layout_below="@id/image_views"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
-                android:text="Synopsis:"
+                android:text="@string/title_synopsis"
                 android:textColor="#B71C1C"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -58,7 +58,7 @@
                 android:layout_below="@id/image_views"
                 android:layout_marginBottom="8dp"
                 android:layout_toRightOf="@id/synopsis_label_tv"
-                android:text="Synopsis"
+                android:text="@string/label_placeholder"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -68,7 +68,7 @@
                 android:layout_below="@id/synopsis_tv"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="5dp"
-                android:text="Ratings:  "
+                android:text="@string/title_ratings"
                 android:textColor="#B71C1C"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/synopsis_tv"
                 android:layout_toRightOf="@id/ratings_label_tv"
-                android:text="Rating"
+                android:text="@string/label_placeholder"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -90,7 +90,7 @@
                 android:layout_below="@id/ratings_label_tv"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="5dp"
-                android:text="Rel Date: "
+                android:text="@string/title_rel_date"
                 android:textColor="#B71C1C"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ratings_label_tv"
                 android:layout_toRightOf="@id/release_date_label_tv"
-                android:text="Rel Date"
+                android:text="@string/label_placeholder"
                 android:textColor="@android:color/black" />
 
         </RelativeLayout>

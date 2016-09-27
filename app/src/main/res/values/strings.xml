@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">Popular Movies</string>
 
+    <!--plain strings-->
+
+    <string name="title_synopsis">Synopsis:</string>
+    <string name="title_ratings">"Ratings:   "</string>
+    <string name="title_rel_date">"Rel Date:  "</string>
+
+
+
+    <string name="label_placeholder">Placeholder</string>
+
     <!--Sort By Menu Items-->
     <string name="title_activity_settings">Settings</string>
 
