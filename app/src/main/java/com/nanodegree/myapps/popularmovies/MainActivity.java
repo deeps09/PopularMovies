@@ -99,16 +99,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Movies movies = moviesAdapter.getItem(position);
+                if (Utilities.checkInternetAccess(getApplicationContext())) {
 
-                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra(KEY_MOVIE_ID, movies.getMovieId());
-                intent.putExtra(KEY_MOVIE_TITLE, movies.getMovieTitle());
-                intent.putExtra(KEY_MOVIE_REL_DATE, movies.getReleaseDate());
-                intent.putExtra(KEY_MOVIE_RATING, movies.getUserRating());
-                intent.putExtra(KEY_MOVIE_SYNOPSIS, movies.getMovieDesc());
-                intent.putExtra(KEY_MOVIE_IMAGE_URL, movies.getPosterUrl());
-                startActivity(intent);
+                    Movies movies = moviesAdapter.getItem(position);
+
+                    Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+                    intent.putExtra(KEY_MOVIE_ID, movies.getMovieId());
+                    intent.putExtra(KEY_MOVIE_TITLE, movies.getMovieTitle());
+                    intent.putExtra(KEY_MOVIE_REL_DATE, movies.getReleaseDate());
+                    intent.putExtra(KEY_MOVIE_RATING, movies.getUserRating());
+                    intent.putExtra(KEY_MOVIE_SYNOPSIS, movies.getMovieDesc());
+                    intent.putExtra(KEY_MOVIE_IMAGE_URL, movies.getPosterUrl());
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
 
 
                 //Toast.makeText(getApplicationContext(), "Movie ID: " + selectedMovieId + " " + movies.getMovieTitle(), Toast.LENGTH_SHORT).show();
@@ -136,6 +141,11 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true); // To not show headers
             startActivity(intent);
         }
+
+        if (id == R.id.menuitem_favorite) {
+            Intent intent = new Intent(this, FavouritesActivity.class);
+            startActivity(intent);
+        }
         return true;
     }
 
@@ -156,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             this.finish();
             startActivity(new Intent(this, MainActivity.class));
             Log.i(LOG_TAG, "onRestart() called from onResume()");
-            Toast.makeText(this, "Preference changed loading afresh", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Preference changed loading afresh", Toast.LENGTH_SHORT).show();
         }
         super.onResume();
     }

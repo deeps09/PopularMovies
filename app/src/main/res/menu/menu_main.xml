@@ -6,4 +6,11 @@
         android:icon="@drawable/ic_sort_black_24dp"
         android:title="Sort By"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menuitem_favorite"
+        android:title="Favorites"
+        app:showAsAction="never" />
+
+
 </menu>

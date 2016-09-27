@@ -5,11 +5,24 @@
     android:layout_height="wrap_content"
     tools:context="com.nanodegree.myapps.popularmovies.DetailsActivity">
 
+    <Button
+        android:id="@+id/reviews_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:background="#00C853"
+        android:gravity="right|center"
+        android:paddingRight="10dp"
+        android:text="USER REVIEWS"
+        android:textSize="16sp" />
+
     <ScrollView
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:paddingBottom="60dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -17,16 +30,16 @@
 
             <RelativeLayout
                 android:id="@+id/image_views"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="300dp">
 
                 <ImageView
                     android:id="@+id/detailMoviePoster"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
                     android:layout_height="300dp"
-                    android:src="@drawable/ic_notifications_black_24dp" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:scaleType="fitXY" />
 
                 <ImageButton
                     android:id="@+id/playArrow"
@@ -36,6 +49,12 @@
                     android:background="@drawable/image_playback_background"
                     android:src="@drawable/ic_play_arrow_black_24dp"
                     android:visibility="gone" />
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/progressBar_image_load"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
             <TextView
@@ -102,6 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ratings_label_tv"
                 android:layout_toRightOf="@id/release_date_label_tv"
+                android:paddingBottom="5dp"
                 android:text="Rel Date"
                 android:textColor="@android:color/black" />
 

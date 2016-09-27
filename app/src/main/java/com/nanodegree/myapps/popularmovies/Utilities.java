@@ -2,6 +2,8 @@ package com.nanodegree.myapps.popularmovies;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
@@ -12,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -93,13 +96,13 @@ public class Utilities {
                 imagePath = IMAGE_BASE_URL + imagePath;
                 //Log.i(LOG_TAG + "imagePath", imagePath);
 
-            /*    Log.i(LOG_TAG + " JSON ", "\n Poster: " + imagePath +
+                Log.i(LOG_TAG + " JSON ", "\n Poster: " + imagePath +
                         "\n Desc: " + movieDesc +
                         "\n Release Date: " + relDate +
                         "\n Movie ID: " + movieId +
                         "\n Title: " + movieTitle +
                         "\n Rating: " + rating +
-                        "\n ---------------------");*/
+                        "\n ---------------------");
 
                 arrayList.add(new Movies(movieId, movieTitle, imagePath, rating, relDate, movieDesc));
                 i++;
@@ -113,7 +116,8 @@ public class Utilities {
     // To extract reviews from JSON
     public static ArrayList<String> extractReviewsFromJSON(String JsonString) {
         //JsonString = "https://api.themoviedb.org/3/movie/244786/reviews?api_key=69b589af19cead810bc805ab8f5363f6";
-        ArrayList<String> reviews = new ArrayList<>();
+        ArrayList<String> reviews = new ArrayList<String>();
+        Log.i(LOG_TAG," JSON Reviews: " + JsonString);
 
         try {
             JSONObject rootObj = new JSONObject(JsonString);
@@ -167,13 +171,68 @@ public class Utilities {
     public static Boolean checkInternetAccess(Context context) {
         ConnectivityManager conManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = conManager.getActiveNetworkInfo();
-        Boolean isNetConnected = false;
-
-       /* if (networkInfo != null || networkInfo.isConnectedOrConnecting())
-            isNetConnected = true;
-
-        return isNetConnected;*/
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    /*
+    * Convert reviews Array List into JSON string to insert in DB
+    * */
+    public static String convertReviewsToJson(ArrayList<String> myArrayList) {
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("json", new JSONArray(myArrayList.toArray()));
+        } catch (JSONException e) {
+            Log.v(LOG_TAG, "JSONException occurred in convertReviewsToJson", e);
+        }
+
+        String arrayList = jsonObject.toString();
+
+        return arrayList;
+    }
+
+    /*
+    * @param: urlPath Url of image to be downloaded
+    * Download image from internet to show it on Details view and saving it in DB
+    * */
+
+    public static byte[] DownloadImageFromInternet(String urlPath) {
+        URL url = null;
+        HttpURLConnection httpURLConnection = null;
+        InputStream inputStream = null;
+        Bitmap bitmap = null;
+        byte[] imageByte = null;
+
+        try {
+            url = new URL(urlPath);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setConnectTimeout(10000);
+            httpURLConnection.connect();
+
+            inputStream = httpURLConnection.getInputStream();
+            bitmap = BitmapFactory.decodeStream(inputStream);
+
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            imageByte = os.toByteArray();
+
+        } catch (MalformedURLException e) {
+            Log.e(LOG_TAG, " MalformedURLException ", e);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, " IOException ", e);
+        } finally {
+            try {
+                if (inputStream != null)
+                    inputStream.close();
+                if (httpURLConnection != null)
+                    httpURLConnection.disconnect();
+            } catch (IOException e) {
+                Log.e(LOG_TAG, " IOException ", e);
+            }
+
+        }
+        return imageByte;
     }
 
 

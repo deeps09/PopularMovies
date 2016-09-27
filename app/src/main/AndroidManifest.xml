@@ -14,6 +14,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -27,6 +28,19 @@
         </activity>
         <activity
             android:name=".DetailsActivity"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ReviewsActivity"
+            android:parentActivityName=".DetailsActivity" />
+
+        <provider
+            android:name=".data.MoviesProvider"
+            android:authorities="com.nanodegree.myapps.popularmovies"
+            android:exported="false" />
+
+        <activity
+            android:name=".FavouritesActivity"
             android:parentActivityName=".MainActivity"></activity>
     </application>
 
