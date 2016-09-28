@@ -86,8 +86,6 @@ public class DetailsFragment extends Fragment {
         imageLoad = (ProgressBar) rootView.findViewById(R.id.progressBar_image_load);
         moviePoster = (ImageView) rootView.findViewById(R.id.detailMoviePoster);
         playArrow = (ImageView) rootView.findViewById(R.id.playArrow);
-
-
         return rootView;
     }
 
@@ -171,8 +169,6 @@ public class DetailsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //Toast.makeText(getActivity(), "Heart Touched", Toast.LENGTH_SHORT).show();
-
         switch (id) {
             case R.id.fav_menu:
                 if (fav) {
@@ -191,10 +187,6 @@ public class DetailsFragment extends Fragment {
         return false;
     }
 
-
-
-
-
     public void insertMovie() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, mMovieId);
@@ -208,19 +200,18 @@ public class DetailsFragment extends Fragment {
         contentValues.put(MoviesContract.MoviesEntry.COLUMN_MOVIE_REVIEWS, Utilities.convertReviewsToJson(listOfReviews));
 
         Uri uri = getActivity().getContentResolver().insert(MoviesContract.MoviesEntry.CONTENT_URI, contentValues);
-        Toast.makeText(getActivity(), uri.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"Success ! \n" + uri.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void deleteMovie() {
         Uri uri = Uri.parse(MoviesContract.MoviesEntry.CONTENT_URI + "/" + mMovieId);
         int row = getActivity().getContentResolver().delete(uri, null, null);
-        Toast.makeText(getActivity(), row + "Movie removed from favorites", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), row + " Movie removed from favorites", Toast.LENGTH_SHORT).show();
     }
 
     private class backgroundTask extends AsyncTask<String, Void, Bundle> {
         @Override
         protected Bundle doInBackground(String... params) {
-
             Bundle bundle = new Bundle();
 
             byte[] imageBytes = Utilities.DownloadImageFromInternet(params[0]);
@@ -247,20 +238,11 @@ public class DetailsFragment extends Fragment {
             // Make this variable ready to save in DB if user favourites the movie
             listOfReviews = bundle.getStringArrayList("reviews");
 
-            //Log.i(LOG_TAG," Reviews = " + reviews.get(0).toString());
-
-            /*
-            * Setting imageView for showing movie poster and assign the variable mPosterImageInByte to save in DB
-            * in case user favorites the movie
-            * */
-
             byte[] bytes = bundle.getByteArray("poster");
             mPosterImageInByte = bytes;
 
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             moviePoster.setImageBitmap(bitmap);
-
-
 
             /*
             * Onclick event on play button to watch trailer on youtube

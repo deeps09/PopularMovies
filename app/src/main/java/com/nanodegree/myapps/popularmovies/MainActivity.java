@@ -16,13 +16,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
         if (findViewById(R.id.detail_fragment_container) != null){
 
             mTwoPaneUI = true;
-
-            /*if (savedInstanceState == null){
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.detail_fragment_container, new DetailsFragment())
-                        .commit();
-            }*/
         }
     }
 

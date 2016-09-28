@@ -31,7 +31,7 @@ public class MainFragment extends Fragment {
     static String LOG_TAG = MainFragment.class.getSimpleName();
     int page = 1;
     static final String BASE_URL = "https://api.themoviedb.org/3/movie";
-    static final String API_KEY = "69b589af19cead810bc805ab8f5363f6";
+    static final String API_KEY = "YOUR_API_KEY";
     Boolean loadNewData = false;
     ProgressBar progressBar;
     GridView gridViewMovies;
@@ -108,8 +108,6 @@ public class MainFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                //Log.i(LOG_TAG, "first Item: " + firstVisibleItem + " Visible Item " + visibleItemCount + " Total Item " +
-                //totalItemCount);
                 if (loadNewData == true && firstVisibleItem == totalItemCount - 8) {
                     if (Utilities.checkInternetAccess(getActivity())) {
                         progressBar.setVisibility(View.VISIBLE);
@@ -130,29 +128,12 @@ public class MainFragment extends Fragment {
 
                 if (Utilities.checkInternetAccess(getActivity())) {
 
-           /*         Movies movies = moviesAdapter.getItem(position);
-
-                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                    intent.putExtra(KEY_MOVIE_ID, movies.getMovieId());
-                    intent.putExtra(KEY_MOVIE_TITLE, movies.getMovieTitle());
-                    intent.putExtra(KEY_MOVIE_REL_DATE, movies.getReleaseDate());
-                    intent.putExtra(KEY_MOVIE_RATING, movies.getUserRating());
-                    intent.putExtra(KEY_MOVIE_SYNOPSIS, movies.getMovieDesc());
-                    intent.putExtra(KEY_MOVIE_IMAGE_URL, movies.getPosterUrl());
-                    startActivity(intent);*/
-
                     movies = moviesAdapter.getItem(position);
-/*                    if (movies != null) {
-                        *//*Bundle bundle = new Bundle();
-                        bundle.putParcelable("parcel", movies);*/
                     ((Callback) getActivity()).onItemSelected(movies);
-                    //}
+
                 } else {
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                 }
-
-
-                //Toast.makeText(getActivity(), "Movie ID: " + selectedMovieId + " " + movies.getMovieTitle(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -160,11 +141,6 @@ public class MainFragment extends Fragment {
         gridViewMovies.setAdapter(moviesAdapter);
 
         return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -207,7 +183,6 @@ public class MainFragment extends Fragment {
             getActivity().finish();
             startActivity(new Intent(getActivity(), MainActivity.class));
             Log.i(LOG_TAG, "onRestart() called from onResume()");
-            //Toast.makeText(this, "Preference changed loading afresh", Toast.LENGTH_SHORT).show();
         }
         super.onResume();
     }
@@ -240,8 +215,6 @@ public class MainFragment extends Fragment {
             if (movies == null){
                 movies = moviesAdapter.getItem(0);
             }
-
-
         }
 
         @Override
