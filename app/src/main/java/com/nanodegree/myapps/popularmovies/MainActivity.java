@@ -66,7 +66,11 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
             gridViewMovies.setVisibility(View.VISIBLE);
             page = savedInstanceState.getInt("page"); // loading current page number on screen rotate
-            loadMovies();
+
+            if (Utilities.checkInternetAccess(this))
+                loadMovies();
+            else
+                Toast.makeText(this, "No Internet Connection Available to load more movies", Toast.LENGTH_SHORT).show();
         }
 
         // loading new movies
