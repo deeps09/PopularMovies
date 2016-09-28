@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:name="com.nanodegree.myapps.popularmovies.MainFragment"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:padding="3dp"
+    android:id="@+id/main_fragment_container"
     tools:context="com.nanodegree.myapps.popularmovies.MainActivity">
-
-    <GridView
-        android:id="@+id/movies_gridview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:drawSelectorOnTop="true"
-        android:horizontalSpacing="3dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="4dp" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+</fragment>

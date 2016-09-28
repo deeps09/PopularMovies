@@ -7,6 +7,4 @@
         android:title="favorite"
         android:icon="@drawable/ic_non_favorite"
         app:showAsAction="always" />
-
-
 </menu>
