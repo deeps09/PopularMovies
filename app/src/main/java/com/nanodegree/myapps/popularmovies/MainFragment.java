@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +32,7 @@ public class MainFragment extends Fragment {
     static String LOG_TAG = MainFragment.class.getSimpleName();
     int page = 1;
     static final String BASE_URL = "https://api.themoviedb.org/3/movie";
-    static final String API_KEY = "YOUR_API_KEY";
+    static final String API_KEY = "YOUR_API";
     Boolean loadNewData = false;
     ProgressBar progressBar;
     GridView gridViewMovies;
@@ -152,18 +153,19 @@ public class MainFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.menuitem_sortBy) {
-            Intent intent = new Intent(getActivity(), SettingsActivity.class);
-            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
-            intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true); // To not show headers
-            startActivity(intent);
+        switch (id){
+            case R.id.menuitem_sortBy:
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
+                intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true); // To not show headers
+                startActivity(intent);
+                break;
+            case R.id.menuitem_favorite:
+                Intent intent1 = new Intent(getActivity(), FavouritesActivity.class);
+                startActivity(intent1);
+                break;
         }
-
-        if (id == R.id.menuitem_favorite) {
-            Intent intent = new Intent(getActivity(), FavouritesActivity.class);
-            startActivity(intent);
-        }
-        return true;
+        return false;
     }
 
     @Override
@@ -197,11 +199,24 @@ public class MainFragment extends Fragment {
     private class backgroundTask extends AsyncTask<String, Void, ArrayList<Movies>> {
         @Override
         protected ArrayList<Movies> doInBackground(String... params) {
-            return Utilities.extractMovieInfoFromJSON(Utilities.fetchJSONDataFromInternet(params[0]));
+
+            if (!TextUtils.isEmpty(params[0])) {
+                String istream = Utilities.fetchJSONDataFromInternet(params[0]);
+                if (istream != null)
+                    return Utilities.extractMovieInfoFromJSON(istream);
+                return null;
+            } else
+                return null;
         }
 
         @Override
         protected void onPostExecute(ArrayList<Movies> data) {
+            if (data.size() == 0) {
+                Toast.makeText(getActivity(), "Something went wrong. Check internet connectivity", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                return;
+            }
+
             //moviesList = data;
             Log.i(LOG_TAG, "onPostExecute() ");
             gridViewMovies.setVisibility(View.VISIBLE);
@@ -211,10 +226,6 @@ public class MainFragment extends Fragment {
             this.onCancelled();
             loadNewData = true;
             //Log.i(LOG_TAG, jsonString);
-
-            if (movies == null){
-                movies = moviesAdapter.getItem(0);
-            }
         }
 
         @Override

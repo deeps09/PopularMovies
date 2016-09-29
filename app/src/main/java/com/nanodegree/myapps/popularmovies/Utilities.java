@@ -58,20 +58,25 @@ public class Utilities {
     }
 
     public static String readBufferedData(InputStream inputStream) {
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
         StringBuilder jsonData = new StringBuilder();
+        if (inputStream == null) {
+            jsonData = jsonData.append("");
+        } else {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-        try {
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                jsonData = jsonData.append(line);
-                line = bufferedReader.readLine();
+
+            try {
+                String line = bufferedReader.readLine();
+                while (line != null) {
+                    jsonData = jsonData.append(line);
+                    line = bufferedReader.readLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
         return jsonData.toString();
     }
 
@@ -117,7 +122,7 @@ public class Utilities {
     public static ArrayList<String> extractReviewsFromJSON(String JsonString) {
         //JsonString = "https://api.themoviedb.org/3/movie/244786/reviews?api_key=69b589af19cead810bc805ab8f5363f6";
         ArrayList<String> reviews = new ArrayList<String>();
-        Log.i(LOG_TAG," JSON Reviews: " + JsonString);
+        Log.i(LOG_TAG, " JSON Reviews: " + JsonString);
 
         try {
             JSONObject rootObj = new JSONObject(JsonString);

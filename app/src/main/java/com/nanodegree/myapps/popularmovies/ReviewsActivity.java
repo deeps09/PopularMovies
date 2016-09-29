@@ -21,7 +21,7 @@ public class ReviewsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        ArrayAdapter<String> reviewsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, intent.getStringArrayListExtra(DetailsActivity.REVIEWS_KEY));
+        ArrayAdapter<String> reviewsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, intent.getStringArrayListExtra(DetailsFragment.REVIEWS_KEY));
         reviewsList.setAdapter(reviewsAdapter);
 
         reviewsList.setEmptyView(emptyView);
