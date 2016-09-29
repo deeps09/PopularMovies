@@ -49,7 +49,7 @@ public class DetailsFragment extends Fragment {
     TextView rating_text;
     TextView relDate_text;
     TextView synopsis_text;
-    RelativeLayout parentView;
+    //RelativeLayout parentView;
 
     static String mPosterUrl;
     static String mMovieId;
@@ -78,7 +78,7 @@ public class DetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
 
-        parentView = (RelativeLayout) rootView.findViewById(R.id.details_parent);
+        //parentView = (RelativeLayout) rootView.findViewById(R.id.details_parent);
         rating_text = (TextView) rootView.findViewById(R.id.ratings_tv);
         relDate_text = (TextView) rootView.findViewById(R.id.release_date_tv);
         synopsis_text = (TextView) rootView.findViewById(R.id.synopsis_tv);
@@ -106,7 +106,7 @@ public class DetailsFragment extends Fragment {
 
         if (movies != null) {
 
-            parentView.setVisibility(View.VISIBLE);
+            //parentView.setVisibility(View.VISIBLE);
             mPosterUrl = movies.getPosterUrl();
             mMovieId = movies.getMovieId();
             mMovieTitle = movies.getMovieTitle();

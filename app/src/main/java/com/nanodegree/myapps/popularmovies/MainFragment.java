@@ -128,12 +128,13 @@ public class MainFragment extends Fragment {
 
                 if (loadNewData == true && firstVisibleItem == totalItemCount - 8) {
                     if (Utilities.checkInternetAccess(getActivity())) {
-                        progressBar.setVisibility(View.VISIBLE);
+                        //progressBar.setVisibility(View.VISIBLE);
                         loadMovies();
                         loadNewData = false;
                     } else {
                         Toast.makeText(getActivity(), "No Internet Connection Available", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.INVISIBLE);
+                        //progressBar.setVisibility(View.INVISIBLE);
+                        swipeContainer.setRefreshing(false);
                         loadNewData = false;
                     }
                 }
@@ -144,14 +145,17 @@ public class MainFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (Utilities.checkInternetAccess(getActivity())) {
+                /*if (Utilities.checkInternetAccess(getActivity())) {
 
                     movies = moviesAdapter.getItem(position);
                     ((Callback) getActivity()).onItemSelected(movies);
 
                 } else {
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-                }
+                }*/
+
+                Intent intent = new Intent(getActivity(), TempActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -267,9 +271,19 @@ public class MainFragment extends Fragment {
     }
 
     private void loadMovies() {
-        progressBar.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.VISIBLE);
+        showProgressIndicator();
         bgTask = new backgroundTask();
         bgTask.execute(constructURL());
+    }
+
+    private void showProgressIndicator(){
+        swipeContainer.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeContainer.setRefreshing(true);
+            }
+        });
     }
 
 }

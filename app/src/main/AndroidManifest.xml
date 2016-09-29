@@ -14,6 +14,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -28,7 +29,6 @@
         <activity
             android:name=".DetailsActivity"
             android:parentActivityName=".MainActivity" />
-
         <activity
             android:name=".ReviewsActivity"
             android:parentActivityName=".DetailsActivity" />
@@ -40,7 +40,9 @@
 
         <activity
             android:name=".FavouritesActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
+
+        <activity android:name=".TempActivity" android:theme="@style/Base.Theme.DesignDemo"></activity>
     </application>
 
 </manifest>
