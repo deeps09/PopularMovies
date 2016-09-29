@@ -8,6 +8,7 @@
         android:id="@+id/reviews_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        style="@android:style/ButtonBar"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
         android:background="#00C853"

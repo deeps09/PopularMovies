@@ -165,7 +165,6 @@ public class Utilities {
         }
         return videoKey;
     }
-
     public static String getPreferenceSortBy(Context context) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String preference = sharedPref.getString(context.getString(R.string.menu_sort_by_key),

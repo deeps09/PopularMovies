@@ -22,7 +22,11 @@
         <item name="colorPrimary">@android:color/transparent</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="windowActionBarOverlay">true</item>
-
     </style>
+
+    <style name="Custom" parent="AppTheme" >
+    </style>
+
+
 
 </resources>
