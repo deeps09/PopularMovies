@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +41,8 @@ public class MainFragment extends Fragment {
     ArrayList<Movies> moviesList;
     String lastPreference = null;
     backgroundTask bgTask;
+    private SwipeRefreshLayout swipeContainer;
+
     public static Movies movies = null;
 
     final static String KEY_MOVIE_ID = "movie_id";
@@ -74,6 +77,20 @@ public class MainFragment extends Fragment {
         lastPreference = Utilities.getPreferenceSortBy(getActivity());
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         gridViewMovies = (GridView) rootView.findViewById(R.id.movies_gridview);
+        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadMovies();
+            }
+        });
+
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
         if (savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
             Log.i(LOG_TAG, "No Parcelable data available");
@@ -211,6 +228,8 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Movies> data) {
+
+            swipeContainer.setRefreshing(false);
             if (data.size() == 0) {
                 Toast.makeText(getActivity(), "Something went wrong. Check internet connectivity", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);

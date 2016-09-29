@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     tools:context="com.nanodegree.myapps.popularmovies.MainFragment">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:id="@+id/swipeContainer"
+        android:layout_height="match_parent">
+
     <GridView
         android:id="@+id/movies_gridview"
         android:layout_width="match_parent"
@@ -13,6 +18,8 @@
         android:columnWidth="160dp"
         android:numColumns="auto_fit"
         android:verticalSpacing="4dp" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
