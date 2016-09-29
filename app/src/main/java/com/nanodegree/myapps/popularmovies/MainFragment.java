@@ -32,7 +32,7 @@ public class MainFragment extends Fragment {
     static String LOG_TAG = MainFragment.class.getSimpleName();
     int page = 1;
     static final String BASE_URL = "https://api.themoviedb.org/3/movie";
-    static final String API_KEY = "YOUR_API";
+    static final String API_KEY = "69b589af19cead810bc805ab8f5363f6";
     Boolean loadNewData = false;
     ProgressBar progressBar;
     GridView gridViewMovies;
