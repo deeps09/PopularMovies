@@ -10,6 +10,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,7 +46,8 @@ public class DetailsFragment extends Fragment {
     boolean fav = false;
 
     Button reviews_btn;
-    ImageView moviePoster, playArrow;
+    ImageView moviePoster;
+    private FloatingActionButton playArrow;
     String videoKey = null;
     static ArrayList<String> listOfReviews;
     ProgressBar imageLoad;
@@ -61,6 +66,8 @@ public class DetailsFragment extends Fragment {
 
     static Uri mVideoUri, mReviewUri;
     Uri mUriMovieId;
+
+    private boolean netRequired = true;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -85,13 +92,27 @@ public class DetailsFragment extends Fragment {
         reviews_btn = (Button) rootView.findViewById(R.id.reviews_btn);
         imageLoad = (ProgressBar) rootView.findViewById(R.id.progressBar_image_load);
         moviePoster = (ImageView) rootView.findViewById(R.id.detailMoviePoster);
-        playArrow = (ImageView) rootView.findViewById(R.id.playArrow);
+        playArrow = (FloatingActionButton) rootView.findViewById(R.id.fab);
+
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "Need to implement", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
         return rootView;
     }
 
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        //toolbar.inflateMenu(R.menu.menu_detail);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getActivity().getIntent();
         Movies movies = intent.getParcelableExtra("bundle");
@@ -105,9 +126,25 @@ public class DetailsFragment extends Fragment {
         }
 
         if (movies != null) {
-
             parentView.setVisibility(View.VISIBLE);
-            mPosterUrl = movies.getPosterUrl();
+
+            /*
+            * Validation to check wheter this activity is launched from
+             * main activity or favourite activity (Internet is not required)
+             *
+            * */
+
+
+            if (movies.getPosterUrl() != null)
+                mPosterUrl = movies.getPosterUrl();
+            else {
+                netRequired = false;
+                byte[] bytes = FavouritesActivity.posterBytes;
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                moviePoster.setImageBitmap(bitmap);
+            }
+
+
             mMovieId = movies.getMovieId();
             mMovieTitle = movies.getMovieTitle();
             mSynopsis = movies.getMovieDesc();
@@ -135,6 +172,7 @@ public class DetailsFragment extends Fragment {
                     .appendEncodedPath("videos")
                     .appendQueryParameter("api_key", MainFragment.API_KEY)
                     .build();
+
 
             backgroundTask bgTask = new backgroundTask();
 
@@ -200,7 +238,7 @@ public class DetailsFragment extends Fragment {
         contentValues.put(MoviesContract.MoviesEntry.COLUMN_MOVIE_REVIEWS, Utilities.convertReviewsToJson(listOfReviews));
 
         Uri uri = getActivity().getContentResolver().insert(MoviesContract.MoviesEntry.CONTENT_URI, contentValues);
-        Toast.makeText(getActivity(),"Success ! \n" + uri.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Success ! \n" + uri.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void deleteMovie() {
@@ -214,7 +252,9 @@ public class DetailsFragment extends Fragment {
         protected Bundle doInBackground(String... params) {
             Bundle bundle = new Bundle();
 
-            byte[] imageBytes = Utilities.DownloadImageFromInternet(params[0]);
+            byte[] imageBytes = null;
+            if (netRequired == true)
+            imageBytes = Utilities.DownloadImageFromInternet(params[0]);
 
             ArrayList<String> reviews;
             reviews = Utilities.extractReviewsFromJSON(Utilities.fetchJSONDataFromInternet(params[1]));
@@ -238,12 +278,12 @@ public class DetailsFragment extends Fragment {
             // Make this variable ready to save in DB if user favourites the movie
             listOfReviews = bundle.getStringArrayList("reviews");
 
-            byte[] bytes = bundle.getByteArray("poster");
-            mPosterImageInByte = bytes;
-
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            moviePoster.setImageBitmap(bitmap);
-
+            if (netRequired == true) {
+                byte[] bytes = bundle.getByteArray("poster");
+                mPosterImageInByte = bytes;
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                moviePoster.setImageBitmap(bitmap);
+            }
             /*
             * Onclick event on play button to watch trailer on youtube
             * */

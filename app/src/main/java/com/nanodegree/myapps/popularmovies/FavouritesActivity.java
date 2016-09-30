@@ -5,21 +5,26 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import com.nanodegree.myapps.popularmovies.data.MoviesContract;
 import com.nanodegree.myapps.popularmovies.data.MoviesContract.MoviesEntry;
 
+
 public class FavouritesActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     final static int LOADER_ID = 1;
 
+    public static byte[] posterBytes;
     ProgressBar progressBar;
     GridView moviesList;
     MoviesCursorAdapter cursorAdapter;
@@ -35,6 +40,30 @@ public class FavouritesActivity extends AppCompatActivity implements LoaderManag
         moviesList = (GridView) findViewById(R.id.movies_gridview);
         cursorAdapter = new MoviesCursorAdapter(this, null);
         moviesList.setAdapter(cursorAdapter);
+
+        moviesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Uri uri = Uri.parse(MoviesEntry.CONTENT_URI + "/" + id);
+                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+                cursor.moveToFirst();
+                Movies movies = new Movies(
+                        cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_MOVIE_ID)),
+                        cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_MOVIE_TITLE)),
+                        null,
+                        cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_MOVIE_RATING)),
+                        cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_MOVIE_RELEASE_DATE)),
+                        cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_MOVIE_SYNOPSIS))
+                );
+
+                posterBytes  = cursor.getBlob(cursor.getColumnIndex(MoviesEntry.COLUMN_MOVIE_POSTER));
+
+                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+                intent.putExtra("bundle", movies);
+                startActivity(intent);
+            }
+        });
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }

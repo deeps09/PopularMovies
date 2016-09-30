@@ -1,20 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.nanodegree.myapps.popularmovies.DetailsActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:theme="@style/AppTheme.AppBarOverlay"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/detailMoviePoster"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_image_load"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@mipmap/ic_play_trailer" />
+
+    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.nanodegree.myapps.popularmovies.DetailScrollingActivity"
+        tools:showIn="@layout/activity_detail_scrolling">
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/details_parent"
     android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/reviews_btn"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:background="#00C853"
-        android:gravity="right|center"
-        android:paddingRight="10dp"
-        android:text="USER REVIEWS"
-        android:textSize="16sp" />
 
     <ScrollView
         android:id="@+id/container"
@@ -27,40 +82,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:id="@+id/image_views"
-                android:layout_width="match_parent"
-                android:layout_height="300dp">
-
-                <ImageView
-                    android:id="@+id/detailMoviePoster"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:scaleType="fitXY" />
-
-                <ImageButton
-                    android:id="@+id/playArrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/image_playback_background"
-                    android:src="@drawable/ic_play_arrow_black_24dp"
-                    android:visibility="gone" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar_image_load"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
-            </RelativeLayout>
-
             <TextView
                 android:id="@+id/synopsis_label_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/image_views"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
                 android:text="Synopsis:"
@@ -73,7 +98,6 @@
                 style="@style/MovieTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/image_views"
                 android:layout_marginBottom="8dp"
                 android:layout_toRightOf="@id/synopsis_label_tv"
                 android:text="Synopsis"
@@ -128,3 +152,23 @@
     </ScrollView>
 
 </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/reviews_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#00C853"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:gravity="right|center"
+        android:paddingRight="10dp"
+        android:text="USER REVIEWS"
+        style="?android:attr/borderlessButtonStyle"
+        android:textSize="16sp" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

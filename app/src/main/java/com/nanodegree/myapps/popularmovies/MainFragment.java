@@ -35,7 +35,7 @@ public class MainFragment extends Fragment {
     static final String BASE_URL = "https://api.themoviedb.org/3/movie";
     static final String API_KEY = "69b589af19cead810bc805ab8f5363f6";
     Boolean loadNewData = false;
-    ProgressBar progressBar;
+    //ProgressBar progressBar;
     GridView gridViewMovies;
     MoviesArrayAdapter moviesAdapter;
     ArrayList<Movies> moviesList;
@@ -75,7 +75,7 @@ public class MainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         lastPreference = Utilities.getPreferenceSortBy(getActivity());
-        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        //progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         gridViewMovies = (GridView) rootView.findViewById(R.id.movies_gridview);
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
 
@@ -101,12 +101,13 @@ public class MainFragment extends Fragment {
                 loadMovies();
             } else {
                 Toast.makeText(getActivity(), "No Internet Connection Available", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                swipeContainer.setRefreshing(false);
+                //progressBar.setVisibility(View.INVISIBLE);
             }
         } else {
             Log.i(LOG_TAG, "Found Parcelable data");
             moviesList = savedInstanceState.getParcelableArrayList("movies");
-            progressBar.setVisibility(View.GONE);
+            //progressBar.setVisibility(View.GONE);
             gridViewMovies.setVisibility(View.VISIBLE);
             page = savedInstanceState.getInt("page"); // loading current page number on screen rotate
 
@@ -128,12 +129,14 @@ public class MainFragment extends Fragment {
 
                 if (loadNewData == true && firstVisibleItem == totalItemCount - 8) {
                     if (Utilities.checkInternetAccess(getActivity())) {
-                        progressBar.setVisibility(View.VISIBLE);
+                        //progressBar.setVisibility(View.VISIBLE);
+                        showProgressIndicator();
                         loadMovies();
                         loadNewData = false;
                     } else {
                         Toast.makeText(getActivity(), "No Internet Connection Available", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.INVISIBLE);
+                        //progressBar.setVisibility(View.INVISIBLE);
+                        swipeContainer.setRefreshing(false);
                         loadNewData = false;
                     }
                 }
@@ -152,6 +155,9 @@ public class MainFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                 }
+
+               /* Intent intent = new Intent(getActivity(), DetailScrollingActivity.class);
+                startActivity(intent);*/
             }
         });
 
@@ -232,14 +238,14 @@ public class MainFragment extends Fragment {
             swipeContainer.setRefreshing(false);
             if (data.size() == 0) {
                 Toast.makeText(getActivity(), "Something went wrong. Check internet connectivity", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
+                //progressBar.setVisibility(View.GONE);
                 return;
             }
 
             //moviesList = data;
             Log.i(LOG_TAG, "onPostExecute() ");
             gridViewMovies.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
+            //progressBar.setVisibility(View.GONE);
             moviesAdapter.addAll(data);
             loadNewData = true;
             this.onCancelled();
@@ -267,9 +273,19 @@ public class MainFragment extends Fragment {
     }
 
     private void loadMovies() {
-        progressBar.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.VISIBLE);
+        showProgressIndicator();
         bgTask = new backgroundTask();
         bgTask.execute(constructURL());
+    }
+
+    private void showProgressIndicator(){
+        swipeContainer.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeContainer.setRefreshing(true);
+            }
+        });
     }
 
 }

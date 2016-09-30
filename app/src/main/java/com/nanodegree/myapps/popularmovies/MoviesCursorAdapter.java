@@ -30,25 +30,6 @@ public class MoviesCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, Cursor cursor) {
 
-
-        /*
-        * I wanted to allow the user to un-favourite a movie from FavouriteActivity but
-         * I am unable to fina a way to get the item id
-        * HELP: Need help in doing that, for now I am not showing favorite icon on image posters
-        * */
-
-/*        ToggleButton toggleButton = (ToggleButton) view.findViewById(R.id.fav_toggle_favourites);
-        toggleButton.setVisibility(View.VISIBLE);
-        toggleButton.setChecked(true);
-
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int id = view.getId();
-                Toast.makeText(context, String.valueOf(id), Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
         TextView title = (TextView) view.findViewById(R.id.movie_title_tv);
         title.setText(cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_MOVIE_TITLE)));
 

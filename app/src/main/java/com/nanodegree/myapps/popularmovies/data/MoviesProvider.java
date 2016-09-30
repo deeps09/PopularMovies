@@ -16,6 +16,8 @@ import com.nanodegree.myapps.popularmovies.data.MoviesContract.MoviesEntry;
  */
 public class MoviesProvider extends ContentProvider {
 
+
+
     final static int MOVIES = 100;
     final static int MOVIES_ID = 101;
     private MoviesDBHelper mMoviesDBHelper;
@@ -52,7 +54,7 @@ public class MoviesProvider extends ContentProvider {
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 cursor = db.query(MoviesEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
         }
-
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -78,7 +80,7 @@ public class MoviesProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("No insertion supported for URI: " + uri);
         }
-
+        getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, id);
     }
 
@@ -98,11 +100,13 @@ public class MoviesProvider extends ContentProvider {
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 row = db.delete(MoviesEntry.TABLE_NAME, selection, selectionArgs);
         }
+        getContext().getContentResolver().notifyChange(uri, null);
         return row;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        getContext().getContentResolver().notifyChange(uri, null);
         return 0;
     }
 }
