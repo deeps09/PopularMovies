@@ -18,10 +18,9 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:theme="@style/AppTheme.AppBarOverlay"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:theme="@style/AppTheme.AppBarOverlay">
 
             <ImageView
                 android:id="@+id/detailMoviePoster"
@@ -33,8 +32,8 @@
                 android:id="@+id/progressBar_image_load"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:layout_gravity="center" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -51,9 +50,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_play_arrow_black_24dp"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@mipmap/ic_play_trailer" />
+        app:layout_anchorGravity="bottom|end" />
 
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -61,114 +60,114 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.nanodegree.myapps.popularmovies.DetailScrollingActivity"
-        tools:showIn="@layout/activity_detail_scrolling">
+        tools:context="com.nanodegree.myapps.popularmovies.DetailScrollingActivity">
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:id="@+id/details_parent"
-    android:layout_height="wrap_content">
-
-
-    <ScrollView
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="60dp">
-
-        <RelativeLayout
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/details_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/synopsis_label_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:text="Synopsis:"
-                android:textColor="#B71C1C"
-                android:textSize="18sp"
-                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/synopsis_tv"
-                style="@style/MovieTitle"
+            <ScrollView
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_toRightOf="@id/synopsis_label_tv"
-                android:text="Synopsis"
-                android:textColor="@android:color/black" />
+                android:layout_alignParentTop="true"
+                android:paddingBottom="60dp">
 
-            <TextView
-                android:id="@+id/ratings_label_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/synopsis_tv"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="5dp"
-                android:text="Ratings:  "
-                android:textColor="#B71C1C"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/ratings_tv"
-                style="@style/MovieTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/synopsis_tv"
-                android:layout_toRightOf="@id/ratings_label_tv"
-                android:text="Rating"
-                android:textColor="@android:color/black" />
+                    <TextView
+                        android:id="@+id/synopsis_label_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="Synopsis:"
+                        android:textColor="#B71C1C"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/release_date_label_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ratings_label_tv"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="5dp"
-                android:text="Rel Date: "
-                android:textColor="#B71C1C"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/synopsis_tv"
+                        style="@style/MovieTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_toRightOf="@id/synopsis_label_tv"
+                        android:text="Synopsis"
+                        android:textColor="@android:color/black" />
 
-            <TextView
-                android:id="@+id/release_date_tv"
-                style="@style/MovieTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ratings_label_tv"
-                android:layout_toRightOf="@id/release_date_label_tv"
-                android:paddingBottom="5dp"
-                android:text="Rel Date"
-                android:textColor="@android:color/black" />
+                    <TextView
+                        android:id="@+id/ratings_label_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/synopsis_tv"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="Ratings:  "
+                        android:textColor="#B71C1C"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ratings_tv"
+                        style="@style/MovieTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/synopsis_tv"
+                        android:layout_toRightOf="@id/ratings_label_tv"
+                        android:text="Rating"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/release_date_label_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ratings_label_tv"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="Rel Date: "
+                        android:textColor="#B71C1C"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/release_date_tv"
+                        style="@style/MovieTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ratings_label_tv"
+                        android:layout_toRightOf="@id/release_date_label_tv"
+                        android:paddingBottom="5dp"
+                        android:text="Rel Date"
+                        android:textColor="@android:color/black" />
+
+                </RelativeLayout>
+            </ScrollView>
 
         </RelativeLayout>
-    </ScrollView>
-
-</RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/reviews_btn"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="#00C853"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:gravity="right|center"
-        android:paddingRight="10dp"
-        android:text="USER REVIEWS"
-        style="?android:attr/borderlessButtonStyle"
-        android:textSize="16sp" />
+        <Button
+            android:id="@+id/reviews_btn"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:background="#00C853"
+            android:gravity="right|center"
+            android:paddingRight="10dp"
+            android:text="USER REVIEWS"
+            android:textSize="16sp" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

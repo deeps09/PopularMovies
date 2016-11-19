@@ -43,6 +43,22 @@
         <activity
             android:name=".FavouritesActivity"
             android:parentActivityName=".MainActivity" />
+
+        <service
+            android:name=".gcm.MyFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".gcm.ReceiveIntentService"/>
+
+        <service
+            android:name=".gcm.MyReceiveMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
